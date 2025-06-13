@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Diário de Investimentos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+      color: #555;
+    }
+    input, textarea, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px;
+      width: 100%;
+      background-color: #28a745;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #218838;
+    }
+    .registro {
+      margin-top: 30px;
+      padding: 20px;
+      background-color: #f9f9f9;
+      border-left: 5px solid #007BFF;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Diário de Investimentos</h1>
+
+    <label for="data">Data:</label>
+    <input type="date" id="data">
+
+    <label for="acao">Decisão / Ação:</label>
+    <input type="text" id="acao" placeholder="Ex: Comprei PETR4 ou Vendi VALE3">
+
+    <label for="emocao">Emoção Sentida:</label>
+    <select id="emocao">
+      <option value="">Selecione</option>
+      <option value="Confiança">Confiança</option>
+      <option value="Medo">Medo</option>
+      <option value="Ansiedade">Ansiedade</option>
+      <option value="Empolgação">Empolgação</option>
+      <option value="Incerteza">Incerteza</option>
+    </select>
+
+    <label for="reflexao">Reflexão Pessoal:</label>
+    <textarea id="reflexao" rows="5" placeholder="Como estava se sentindo? O que aprendeu?"></textarea>
+
+    <button onclick="registrar()">Registrar</button>
+
+    <div id="historico"></div>
+  </div>
+
+  <script>
+    let registros = [];
+
+    function registrar() {
+      const data = document.getElementById('data').value;
+      const acao = document.getElementById('acao').value.trim();
+      const emocao = document.getElementById('emocao').value;
+      const reflexao = document.getElementById('reflexao').value.trim();
+
+      if (!data || !acao || !emocao || !reflexao) {
+        alert("Preencha todos os campos.");
+        return;
+      }
+
+      const novoRegistro = { data, acao, emocao, reflexao };
+      registros.push(novoRegistro);
+
+      atualizarHistorico();
+      limparCampos();
+    }
+
+    function atualizarHistorico() {
+      const historicoDiv = document.getElementById('historico');
+      historicoDiv.innerHTML = '<h2>Histórico de Registros:</h2>';
+      registros.forEach((r, index) => {
+        historicoDiv.innerHTML += `
+          <div class="registro" id="registro-${index}">
+            <strong>Data:</strong> ${r.data}<br>
+            <strong>Ação:</strong> ${r.acao}<br>
+            <strong>Emoção:</strong> ${r.emocao}<br>
+            <strong>Reflexão:</strong><br>
+            <small>${r.reflexao}</small>
+          </div>
+        `;
+      });
+    }
+
+    function limparCampos() {
+      document.getElementById('data').value = '';
+      document.getElementById('acao').value = '';
+      document.getElementById('emocao').value = '';
+      document.getElementById('reflexao').value = '';
+    }
+  </script>
+</body>
+</html>
